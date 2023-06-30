@@ -1,0 +1,17 @@
+% Facts about bikes
+bike(bike1, giant, mountain_bike, 26, 21, 1500, 4.5).
+bike(bike2, specialized, road_bike, 28, 18, 2000, 4.7).
+bike(bike3, trek, hybrid_bike, 26, 24, 1200, 4.2).
+bike(bike4, cannondale, city_bike, 28, 7, 1000, 4.0).
+
+% Rules for bike comparison
+is_better(Bike1, Bike2) :-
+    bike(Bike1, Brand1, _, _, _, Price1, Rating1),
+    bike(Bike2, Brand2, _, _, _, Price2, Rating2),
+    Price1 < Price2,
+    Rating1 > Rating2,
+    format("~w is better than ~w in terms of price and rating.~n", [Brand1, Brand2]).
+
+% Usage example:
+% ?- is_better(bike1, bike2).
+% Output: giant is better than specialized in terms of price and rating.
