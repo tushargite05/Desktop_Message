@@ -1,0 +1,67 @@
+from queue import PriorityQueue
+
+class Node:
+    def __init__(self, name, operator, heuristic):
+        self.name = name
+        self.operator = operator
+        self.heuristic = heuristic
+        self.children = []
+        self.best_child = None
+        self.cost = float('inf')
+
+    def __lt__(self, other):
+        return self.cost < other.cost
+
+def ao_star(graph, start):
+    queue = PriorityQueue()
+    start.cost = start.heuristic
+    queue.put(start)
+
+    while not queue.empty():
+        current = queue.get()
+        if current.operator == 'OR':
+            for child in current.children:
+                if child.cost > current.cost + child.heuristic:
+                    child.cost = current.cost + child.heuristic
+                    child.best_child = None
+                    queue.put(child)
+        elif current.operator == 'AND':
+            min_cost = float('inf')
+            best_child = None
+            for child in current.children:
+                if child.cost < min_cost:
+                    min_cost = child.cost
+                    best_child = child
+            if current.best_child != best_child:
+                current.best_child = best_child
+                if current.cost > min_cost:
+                    current.cost = min_cost
+                    queue.put(current)
+    return start
+
+def main():
+    graph = {}
+    n = int(input("Enter the number of nodes: "))
+    for i in range(n):
+        name = input("Enter the name of the node: ")
+        operator = input("Enter the operator of the node (AND/OR): ")
+        heuristic = int(input("Enter the heuristic value of the node: "))
+        graph[name] = Node(name, operator, heuristic)
+
+    for name in graph:
+        m = int(input(f"Enter the number of children for node {name}: "))
+        for j in range(m):
+            child_name = input("Enter the name of the child: ")
+            graph[name].children.append(graph[child_name])
+
+    start_name = input("Enter the name of the start node: ")
+    start_node = graph[start_name]
+
+    result = ao_star(graph, start_node)
+    if result.best_child is not None:
+        print(f"Optimal solution: {result.best_child.name}")
+    else:
+        print("No optimal solution found")
+
+if __name__ == "__main__":
+    main()

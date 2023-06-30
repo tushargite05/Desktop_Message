@@ -1,0 +1,51 @@
+main:-
+    enter(monkey,room).
+enter(monkey,room):-
+    write("Monkey enters the room"),nl,checkheight(monkey,banana).
+
+checkheight(monkey,banana):-
+    write("Monkey Cannot Reach the Banana"),nl, move(monkey,left).
+
+move(monkey,left):-
+    write("Monkey Move Towards chair"),nl,push(monkey,chair).
+
+push(monkey,chair):-
+    write("Monkey Pushes The Chair Towards Banana"),nl,place(monkey,chair).
+
+place(monkey,chair):-
+    write("Monkey Places The Chair Below Banana"),nl,climb(monkey,chair).
+
+climb(monkey,chair):-
+    write("Monkey Climbs The Chair"),nl,function(check).
+
+function(check):-
+    write("Enter Height of Room: "),read(H1),
+    write("Enter Height of Chair: "),read(H2),
+    write("Enter Height of Monkey: "),read(H3),
+B is H2 +H3,
+check(H1,B).
+
+gets(monkey,stick):-
+    write("Monkey Move Towards The Stick"),nl,
+    write("Monkey Gets The Stick and Climbs Again"),nl,
+    write("Enter Height of Room: "),
+    read(N1),
+    write("Enter Height of Chair: "),
+    read(N2),
+    write("Enter Height of Monkey: "),
+    read(N3),
+    write("Enter Height of Stick: "),
+    read(N4),
+    SUM is N2+N3+N4,
+    check(N1,SUM).
+
+check(A,B):-
+    (
+    A>B->  
+    write("Monkey Still Cannot Reach The Banana"),nl,
+    gets(monkey,stick);
+    A<B->  
+    write("Monkey Ate the Banana");
+    A=B->  
+    write("Monkey Ate the Banana")
+    ).

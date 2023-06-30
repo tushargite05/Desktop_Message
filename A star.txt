@@ -1,0 +1,50 @@
+from queue import PriorityQueue
+
+def a_star(graph, start, goal, heuristic):
+    visited = set()
+    queue = PriorityQueue()
+    queue.put((0, [start]))
+
+    while not queue.empty():
+        cost, path = queue.get()
+        current = path[-1]
+        if current == goal:
+            return path
+        if current not in visited:
+            visited.add(current)
+            for neighbor in graph[current]:
+                if neighbor not in visited:
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    new_cost = cost + graph[current][neighbor] + heuristic[neighbor]
+                    queue.put((new_cost, new_path))
+    return []
+
+def main():
+    graph = {}
+    n = int(input("Enter the number of nodes: "))
+    for i in range(n):
+        node = input("Enter the node: ")
+        graph[node] = {}
+        m = int(input("Enter the number of neighbors: "))
+        for j in range(m):
+            neighbor = input("Enter the neighbor: ")
+            cost = int(input("Enter the cost: "))
+            graph[node][neighbor] = cost
+
+    heuristic = {}
+    for node in graph:
+        h = int(input(f"Enter the heuristic value for {node}: "))
+        heuristic[node] = h
+
+    start = input("Enter the start node: ")
+    goal = input("Enter the goal node: ")
+
+    result = a_star(graph, start, goal, heuristic)
+    if result:
+        print(f"Path from {start} to {goal}: {' -> '.join(result)}")
+    else:
+        print(f"No path exists from {start} to {goal}")
+
+if __name__ == "__main__":
+    main()

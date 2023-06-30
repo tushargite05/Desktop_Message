@@ -1,0 +1,25 @@
+from itertools import permutations
+from sys import maxsize
+num=int(input("Enter Number of Cities : "))
+matrix=[]
+for i in range(1,num+1):
+    distances=[]
+    for j in range(1,num+1):
+        distances.append(int(input("Enter Distance Between Cities {} and {} : ".format(i,j))))
+    matrix.append(distances)
+src=int(input("Enter Source : "))
+vertex = []
+for i in range(num):
+    if i != src:
+        vertex.append(i)
+min_path = maxsize
+next_permutation=permutations(vertex)
+for i in next_permutation:
+    current_pathweight = 0
+    k = src
+    for j in i:
+        current_pathweight += matrix[k][j]
+        k = j
+    current_pathweight += matrix[k][src]
+    min_path = min(min_path, current_pathweight)
+print("Minimum Cost : ",min_path)

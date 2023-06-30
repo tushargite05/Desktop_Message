@@ -1,0 +1,36 @@
+max(X,Y):-
+(  
+ X=Y -> 
+  write('both are equal')
+ ;
+ X>Y -> 
+  (
+  Z is X, 
+  write('maximum is :'),
+  write(Z)
+  )
+  ;
+  (
+  Z is Y, 
+  write('maximum is :'),
+  write(Z)
+  ) 
+).
+min(X,Y):-
+(  
+ X=Y -> 
+  write('both are equal')
+ ;
+ X<Y -> 
+  (
+  Z is X, 
+  write('minimum is :'),
+  write(Z)
+  )
+  ;
+  (
+  Z is Y, 
+  write('minimum is :'),
+  write(Z)
+  ) 
+).
